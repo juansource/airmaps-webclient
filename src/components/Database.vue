@@ -14,6 +14,14 @@
 import axios from 'axios';
 
 export default {
+  computed: {
+    projectId() {
+      return this.$store.state.currentProjectId;
+    }
+  },
+  mounted() {
+    console.log('Project ID from the store:', this.projectId); // This should log the updated ID
+  },
   name: 'HelloWorld',
   data() {
     return {
@@ -23,7 +31,7 @@ export default {
   },
   methods: {
     getModelName() {
-      axios.get('http://localhost:3000/3dmodels')
+      axios.get('http://localhost:3001/3dmodels')
         .then(response => {
           if (response.data.length > 0) {
             // Assuming the response data is an array of objects with a 'ModelName' property
@@ -39,7 +47,7 @@ export default {
         });
     },
     getFilePath() {
-      axios.get('http://localhost:3000/3dmodels')
+      axios.get('http://localhost:3001/3dmodels')
         .then(response => {
           if (response.data.length > 0) {
             // Assuming the response data is an array of objects with a 'ModelName' property

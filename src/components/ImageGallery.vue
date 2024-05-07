@@ -17,10 +17,16 @@
 </template>
 
 <script setup>
+
     import { ref, onMounted } from "vue";
     import Galleria from 'primevue/galleria';
     import { Annotorious } from '@recogito/annotorious';
     import '@recogito/annotorious/dist/annotorious.min.css';
+    
+    import { useStore } from 'vuex'; // use vuex store for the projectID
+
+    const store = useStore(); // Use useStore to access the Vuex store
+    const currentProjectId = store.state.currentProjectId; // Access state
 
     const images = ref();
     const responsiveOptions = ref([
@@ -43,8 +49,9 @@
     ]);
     var anno = null;
     var photoIndex = 0;
-    var projectId = "";
-
+    var projectId = currentProjectId;
+    console.log("gallery project id: ", projectId);
+    // console.log("curret id:", this.$store.state.currentProjectId) // problem here
 
     const initAnno = () => {
         displayBasic = true;
@@ -57,7 +64,8 @@
             image: document.getElementById("plan")
         });
 
-        anno.loadAnnotations('http://localhost:3000/Annotations?sourceImage=' + images.value[photoIndex].itemImageSrc + '&projectId=' + projectId);
+        console.log("Annotations: ", projectId);
+        anno.loadAnnotations('http://localhost:3000/Annotations.json?sourceImage=' + images.value[photoIndex].itemImageSrc + '&projectId=' + projectId);
 
         anno.on('createAnnotation', function (annotation) {
             console.log('Created annotation', annotation);
@@ -69,6 +77,7 @@
                 headers: { "Content-Type": "application/json" },
                 body: data
             };
+            console.log("AnnotationsAdd: ", projectId);
             fetch("http://localhost:3000/AnnotationsAdd?projectId=" + projectId, requestOptions)
                 .then(response => response.json())
                 .then(data => (this.postId = data.id));
@@ -131,12 +140,15 @@
     var displayBasic = ref(false);
 
     onMounted(() => {
+        //console.log("projectId: ", projectId);
+        console.log('Gallery project ID:', currentProjectId);
         const requestOptions = {
             method: "GET"
         };
-        fetch("http://localhost:3000/GalleryImages?projectId=" + projectId, requestOptions)
+        console.log("projectId: ", projectId);
+        fetch("http://localhost:3000/GalleryImages?projectId=" + projectId, requestOptions) // replacing projectId with currentProjectId does not work
             .then(response => response.json())
             .then((data) => (images.value = data));
+        console.log("images: ", images);
     })
 </script>
-

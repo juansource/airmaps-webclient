@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     fetchModelSrc() { // turns on on loading of page
-      axios.get('http://localhost:3000/3dmodels')
+      axios.get('http://localhost:3001/3dmodels')
         .then(response => {
           // Assume the response has a data array and you need the first item's filepath
           if(response.data.length > 0 && response.data[0].FilePath) {
