@@ -21,7 +21,7 @@ export default {
   },
   created() {
     // for fetching the project IDs
-    fetch('http://52.12.227.98:3000/Projects')
+    fetch('https://52.12.227.98:3000/Projects')
       .then(response => response.json())
       .then(data => {
         this.projects = data;
