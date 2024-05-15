@@ -1,27 +1,3 @@
-<!--<template>
-  <div>
-    
-  </div>
-</template>
-
-<script>
-// eslint-disable-next-line
-let projects;
-let num_projects = 10; // Correct declaration with 'let' for block scope
-const requestOptions = {
-  method: "GET"
-};
-fetch("http://localhost:3000/Projects", requestOptions)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data.length);
-    num_projects = data.length;
-    projects = data;
-    console.log(num_projects);
-    projects.forEach(project => console.log(project.projectId));
-  })
-</script>
--->
 <template>
   <div class="page-name">
     <h1>Your Projects</h1>
@@ -45,7 +21,7 @@ export default {
   },
   created() {
     // for fetching the project IDs
-    fetch("http://localhost:3000/Projects")
+    fetch('http://52.12.227.98:3000/Projects')
       .then(response => response.json())
       .then(data => {
         this.projects = data;
